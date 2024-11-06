@@ -72,6 +72,7 @@ const Toast = (props: ToastProps) => {
     closeButtonAriaLabel = 'Close toast',
     pauseWhenPageIsHidden,
     cn,
+    tapToDismiss,
   } = props;
   const [mounted, setMounted] = React.useState(false);
   const [removed, setRemoved] = React.useState(false);
@@ -97,10 +98,6 @@ const Toast = (props: ToastProps) => {
   const closeButton = React.useMemo(
     () => toast.closeButton ?? closeButtonFromToaster,
     [toast.closeButton, closeButtonFromToaster],
-  );
-  const duration = React.useMemo(
-    () => toast.duration || durationFromToaster || TOAST_LIFETIME,
-    [toast.duration, durationFromToaster],
   );
   const closeTimerStartTimeRef = React.useRef(0);
   const offset = React.useRef(0);
@@ -303,7 +300,7 @@ const Toast = (props: ToastProps) => {
         const velocity = Math.abs(swipeAmount) / timeTaken;
 
         // Remove only if threshold is met
-        if (Math.abs(swipeAmount) >= SWIPE_THRESHOLD || velocity > 0.11) {
+        if (Math.abs(swipeAmount) >= SWIPE_THRESHOLD || velocity > 0.11 || tapToDismiss) {
           setOffsetBeforeRemove(offset.current);
           toast.onDismiss?.(toast);
           deleteToast();

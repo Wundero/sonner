@@ -165,6 +165,7 @@ export interface ToastProps {
   pauseWhenPageIsHidden: boolean;
   cn: CnFunction;
   defaultRichColors?: boolean;
+  tapToDismiss?: boolean;
 }
 
 export enum SwipeStateTypes {
